@@ -16,11 +16,12 @@ func TestParse(t *testing.T) {
 		want    string
 		wantErr bool
 	}{
-		"with dashes":     {uuid: "53bfe550-4165-4f81-a8e7-c2609579ccc0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
-		"no dashes":       {uuid: "53bfe55041654f81a8e7c2609579ccc0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
-		"urn:uuid prefix": {uuid: "urn:uuid:53bfe550-4165-4f81-a8e7-c2609579ccc0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
-		"uppercase":       {uuid: "53BFE550-4165-4F81-A8E7-C2609579CCC0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
-		"mixed case":      {uuid: "53bfe550-4165-4f81-A8E7-C2609579CCC0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
+		"with dashes":        {uuid: "53bfe550-4165-4f81-a8e7-c2609579ccc0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
+		"no dashes":          {uuid: "53bfe55041654f81a8e7c2609579ccc0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
+		"urn:uuid prefix":    {uuid: "urn:uuid:53bfe550-4165-4f81-a8e7-c2609579ccc0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
+		"uppercase":          {uuid: "53BFE550-4165-4F81-A8E7-C2609579CCC0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
+		"mixed case":         {uuid: "53bfe550-4165-4f81-A8E7-C2609579CCC0", want: "53bfe550-4165-4f81-a8e7-c2609579ccc0"},
+		"invalid urn prefix": {uuid: "abc:1234:53bfe550-4165-4f81-a8e7-c2609579ccc0", want: "00000000-0000-0000-0000-000000000000", wantErr: true},
 	}
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {
