@@ -14,8 +14,10 @@ var (
 	errInvalidFormat = errors.New("invalid format")
 )
 
+// UUID is a 128 bit (16 byte) value defined by RFC4122.
 type UUID [16]byte
 
+// Nil represents the zero-value UUID
 var Nil UUID
 
 // NewV4 returns a UUID Version 4 as defined in RFC4122. Random bits
@@ -84,10 +86,22 @@ func NewV7() (UUID, error) {
 	return uuid, nil
 }
 
+// String returns the UUID in "hex-and-dash" string format.
+//
+//	56c450b3-255d-4a2a-a761-cd1b1bf028e2
 func (uuid UUID) String() string {
 	var buf [36]byte
 	encodeHex(buf[:], uuid)
 	return string(buf[:])
+}
+
+// URN returns the UUID in "urn:uuid" string format.
+//
+//	urn:uuid:56c450b3-255d-4a2a-a761-cd1b1bf028e2
+func (uuid UUID) URN() string {
+	var buf [36]byte
+	encodeHex(buf[:], uuid)
+	return "urn:uuid:" + string(buf[:])
 }
 
 func encodeHex(dst []byte, uuid UUID) {
@@ -102,16 +116,26 @@ func encodeHex(dst []byte, uuid UUID) {
 	hex.Encode(dst[24:], uuid[10:])
 }
 
+// Parse a UUID string with or without the dashes.
+//
+//	u, err := Parse("56c450b3255d4a2aa761cd1b1bf028e2") // no dashes
+//	u, err := Parse("56c450b3-255d-4a2a-a761-cd1b1bf028e2") // with dashes
+//	u, err := Parse("urn:uuid:56c450b3-255d-4a2a-a761-cd1b1bf028e2") // urn uuid prefix
 func Parse(s string) (uuid UUID, err error) {
 	var x string
 	switch len(s) {
-	case 32: // uuid: 9178e496ba5c4c108b1513a1c70550d0, len: 32
+	case 32: // uuid: "9178e496ba5c4c108b1513a1c70550d0", len: 32
 		x = s[:8] + s[8:13] + s[13:18] + s[18:23] + s[23:]
-	case 36: // uuid: 9178e496-ba5c-4c10-8b15-13a1c70550d0, len: 36
+	case 36: // uuid: "9178e496-ba5c-4c10-8b15-13a1c70550d0", len: 36
 		if s[8] != '-' || s[13] != '-' || s[18] != '-' || s[23] != '-' {
 			return uuid, errInvalidFormat
 		}
 		x = s[:8] + s[9:13] + s[14:18] + s[19:23] + s[24:]
+	case 45: // uuid: "urn:uuid:9178e496-ba5c-4c10-8b15-13a1c70550d0"
+		if s[17] != '-' || s[22] != '-' || s[27] != '-' || s[32] != '-' {
+			return uuid, errInvalidFormat
+		}
+		x = s[9:17] + s[18:22] + s[23:27] + s[28:32] + s[33:]
 	default:
 		return uuid, errInvalidLength
 	}
