@@ -1,5 +1,8 @@
 # go-uuid
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/cmackenzie1/go-uuid.svg)](https://pkg.go.dev/github.com/cmackenzie1/go-uuid)
+![go workflow](https://github.com/cmackenzie1/go-uuid/actions/workflows/go.yml/badge.svg)
+
 A simple, stdlib only, go module for generating UUIDs (Universally Unique IDentifiers).
 
 ## Installation
