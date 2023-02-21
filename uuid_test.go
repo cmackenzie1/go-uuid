@@ -101,3 +101,11 @@ func TestUUID_Duplicates(t *testing.T) {
 		})
 	}
 }
+
+func TestPrint(t *testing.T) {
+	u, _ := NewV4()
+	t.Logf("v4: %s %v", u, u[:])
+
+	u, _ = NewV7()
+	t.Logf("v7: %s %v", u, u[:])
+}
