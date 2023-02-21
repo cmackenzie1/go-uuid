@@ -44,7 +44,7 @@ func NewV4() (UUID, error) {
 	// fill entire uuid with secure, random bytes
 	_, err := io.ReadFull(rand.Reader, uuid[:])
 	if err != nil {
-		return [16]byte{}, err
+		return UUID{}, err
 	}
 
 	// Set version and variant bits
@@ -74,13 +74,13 @@ func NewV7() (UUID, error) {
 	var uuid UUID
 
 	t := time.Now()
-	ms := t.UnixMilli()
+	ms := t.UnixMilli() & ((1 << 48) - 1)               // 48 bit timestamp
 	binary.BigEndian.PutUint64(uuid[:], uint64(ms<<16)) // lower 48 bits. Right 0 padded
 
 	// Fill the rest with random data
-	_, err := io.ReadFull(rand.Reader, uuid[7:])
+	_, err := io.ReadFull(rand.Reader, uuid[6:])
 	if err != nil {
-		return Nil, err
+		return UUID{}, err
 	}
 
 	// Set the version and variant bits
