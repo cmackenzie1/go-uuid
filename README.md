@@ -13,10 +13,10 @@ go get github.com/cmackenzie1/go-uuid
 
 ## Supported versions
 
-| Version     | Variant | Details                                                                                                                                                                                                      |
-|-------------|---------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Version 4` | `10`    | Pure random as defined in [RFC4122](https://www.rfc-editor.org/rfc/rfc4122).                                                                                                                                 |
-| `Version 7` | `10`    | Time-sortable as defined in a [working draft]( https://www.ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-01.html#name-uuid-version-7) meant to update [RFC4122](https://www.rfc-editor.org/rfc/rfc4122). |
+| Version     | Variant | Details                                                                             |
+| ----------- | ------- | ----------------------------------------------------------------------------------- |
+| `Version 4` | `10`    | Pure random as defined in [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html).   |
+| `Version 7` | `10`    | Time-sortable as defined in [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html). |
 
 ## Usage
 
@@ -53,7 +53,7 @@ func main() {
 - A single library with no external dependencies for multiple types of UUIDs.
 - `UUID` type is defined as a fixed-size, `[16]byte`, array which can be used as a map (instead of the 36 byte
   string representation). Over 2x space savings for memory!
-- Limited API. As per RFC4122, UUIDs (while containing embedded information), should be treated as opaque
+- Limited API. As per RFC9562, UUIDs (while containing embedded information), should be treated as opaque
   values. There is no temptation to build dependencies on the embedded information if you can't easily access it. 😉
 
 ### When should I use UUIDv7 over UUIDv4?

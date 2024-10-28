@@ -72,6 +72,12 @@ func TestNewV4_UnmarshalJSON(t *testing.T) {
 				return exampleJSON{ID: uuid.Nil}
 			},
 		},
+		"null": {
+			uuid: "{\"id\":null}",
+			want: func() exampleJSON {
+				return exampleJSON{ID: uuid.Nil}
+			},
+		},
 	}
 
 	for name, tt := range tests {
