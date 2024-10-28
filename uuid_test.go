@@ -109,3 +109,10 @@ func TestPrint(t *testing.T) {
 	u, _ = NewV7()
 	t.Logf("v7: %s %v", u, u[:])
 }
+
+func BenchmarkNewV4(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		a, _ := NewV4()
+		_ = a // prevent compiler optimization
+	}
+}

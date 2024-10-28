@@ -18,13 +18,13 @@ var (
 	errUnsupportedVariant = errors.New("unsupported variant")
 )
 
-// UUID is a 128 bit (16 byte) value defined by RFC4122.
+// UUID is a 128 bit (16 byte) value defined by RFC9562.
 type UUID [16]byte
 
 // Nil represents the zero-value UUID
 var Nil UUID
 
-// NewV4 returns a UUID Version 4 as defined in RFC4122. Random bits
+// NewV4 returns a UUID Version 4 as defined in RFC9562. Random bits
 // are generated using crypto/rand.
 //
 //	 0                   1                   2                   3
@@ -53,11 +53,11 @@ func NewV4() (UUID, error) {
 	return uuid, nil
 }
 
-// NewV7 returns a UUID Version 7 as defined in the drafted revision for RFC4122.
+// NewV7 returns a UUID Version 7 as defined in the drafted revision for RFC9562.
 // Random bits are generated using crypto/rand.
 // Due to millisecond resolution of the timestamp, UUIDs generated during the
 // same millisecond will sort arbitrarily.
-// https://www.ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-01.html#name-uuid-version-7
+// https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7
 //
 //	 0                   1                   2                   3
 //	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
