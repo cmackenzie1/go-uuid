@@ -7,6 +7,18 @@ A simple, stdlib only, go module for generating UUIDs (**U**niversally **U**niqu
 
 ## Installation
 
+### CLI
+
+```bash
+go install github.com/cmackenzie1/go-uuid/cmd/uuid
+
+# run the command
+uuid
+5f70a1c2-de1b-4e23-b8f8-d86889ac88a1
+```
+
+### Package
+
 ```bash
 go get github.com/cmackenzie1/go-uuid
 ```
