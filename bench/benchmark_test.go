@@ -13,21 +13,21 @@ import (
 func BenchmarkNewV4(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		a, _ := uuid.NewV4()
-		_ = a // prevent compiler optimization
+		_ = a.String() // prevent compiler optimization
 	}
 }
 
 func BenchmarkGoogleV4(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		a, _ := google.NewRandom()
-		_ = a // prevent compiler optimization
+		_ = a.String() // prevent compiler optimization
 	}
 }
 
 func BenchmarkGofrsV4(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		a, _ := gofrs.NewV4()
-		_ = a // prevent compiler optimization
+		_ = a.String() // prevent compiler optimization
 	}
 }
 
@@ -36,20 +36,20 @@ func BenchmarkGofrsV4(b *testing.B) {
 func BenchmarkNewV7(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		a, _ := uuid.NewV7()
-		_ = a // prevent compiler optimization
+		_ = a.String() // prevent compiler optimization
 	}
 }
 
 func BenchmarkGoogleV7(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		a, _ := google.NewV7()
-		_ = a // prevent compiler optimization
+		_ = a.String() // prevent compiler optimization
 	}
 }
 
 func BenchmarkGofrsV7(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		a, _ := gofrs.NewV7()
-		_ = a // prevent compiler optimization
+		_ = a.String() // prevent compiler optimization
 	}
 }

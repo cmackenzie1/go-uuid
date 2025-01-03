@@ -4,6 +4,8 @@ This directory contains benchmarks for the go-uuid package, comparing it to `goo
 This package does not claim to be the fastest, or the best, so these benchmarks are provided to give you an idea of how
 it compares to other packages.
 
+For the benchmarks, we will be comparing generating a UUID and serializing it to a string.
+
 ## Running Benchmarks
 
 To run the benchmarks, execute the following command:
@@ -17,17 +19,17 @@ go test -benchmem -bench=.
 The results of the benchmarks are as follows:
 
 ```bash
-$ go test -bench=. -benchmem
+$ go test -benchmem -bench=.
 goos: darwin
 goarch: arm64
 pkg: github.com/cmackenzie1/go-uuid/bench
 cpu: Apple M2
-BenchmarkNewV4-8      	 4511821	       257.2 ns/op	      16 B/op	       1 allocs/op
-BenchmarkGoogleV4-8   	 4826209	       252.2 ns/op	      16 B/op	       1 allocs/op
-BenchmarkGofrsV4-8    	 4460016	       254.6 ns/op	      16 B/op	       1 allocs/op
-BenchmarkNewV7-8      	10082949	       122.8 ns/op	      16 B/op	       1 allocs/op
-BenchmarkGoogleV7-8   	 3549622	       298.6 ns/op	      16 B/op	       1 allocs/op
-BenchmarkGofrsV7-8    	 9184320	       136.5 ns/op	      16 B/op	       1 allocs/op
+BenchmarkNewV4-8      	 3954818	       292.8 ns/op	      64 B/op	       2 allocs/op
+BenchmarkGoogleV4-8   	 4062295	       292.6 ns/op	      64 B/op	       2 allocs/op
+BenchmarkGofrsV4-8    	 4227584	       282.5 ns/op	      64 B/op	       2 allocs/op
+BenchmarkNewV7-8      	 7648292	       157.6 ns/op	      64 B/op	       2 allocs/op
+BenchmarkGoogleV7-8   	 3550208	       335.3 ns/op	      64 B/op	       2 allocs/op
+BenchmarkGofrsV7-8    	 7195696	       167.5 ns/op	      64 B/op	       2 allocs/op
 PASS
-ok  	github.com/cmackenzie1/go-uuid/bench	8.644s
+ok  	github.com/cmackenzie1/go-uuid/bench	8.897s
 ```
