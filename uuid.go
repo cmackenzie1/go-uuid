@@ -2,7 +2,6 @@ package uuid
 
 import (
 	"crypto/rand"
-	"encoding/binary"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -24,8 +23,8 @@ type UUID [16]byte
 // Nil represents the zero-value UUID
 var Nil UUID
 
-// NewV4 returns a UUID Version 4 as defined in RFC9562. Random bits
-// are generated using crypto/rand.
+// NewV4 returns a Version 4 UUID as defined in [RFC9562]. Random bits
+// are generated using [crypto/rand].
 //
 //	 0                   1                   2                   3
 //	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -38,6 +37,8 @@ var Nil UUID
 //	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //	|                           random_c                            |
 //	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//
+// [RFC9562]: https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7
 func NewV4() (UUID, error) {
 	var uuid UUID
 
@@ -53,11 +54,12 @@ func NewV4() (UUID, error) {
 	return uuid, nil
 }
 
-// NewV7 returns a UUID Version 7 as defined in the drafted revision for RFC9562.
-// Random bits are generated using crypto/rand.
-// Due to millisecond resolution of the timestamp, UUIDs generated during the
-// same millisecond will sort arbitrarily.
-// https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7
+// NewV7 returns a Version 7 UUID as defined in [RFC9562].
+// Random bits are generated using [crypto/rand].
+//
+// This function employs method 3 (Replace Leftmost Random Bits with Increased Clock Precision)
+// to increase the clock precision of the UUID. This helps support scenarios where
+// several UUIDs are generated within the same millisecond.
 //
 //	 0                   1                   2                   3
 //	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -70,15 +72,38 @@ func NewV4() (UUID, error) {
 //	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //	|                            rand_b                             |
 //	+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//
+// [RFC9562]: https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7
 func NewV7() (UUID, error) {
 	var uuid UUID
 
 	t := time.Now()
-	ms := t.UnixMilli() & ((1 << 48) - 1)               // 48 bit timestamp
-	binary.BigEndian.PutUint64(uuid[:], uint64(ms<<16)) // lower 48 bits. Right 0 padded
+	ms := t.UnixMilli()
+
+	// Extract each byte from the 48-bit timestamp
+	uuid[0] = byte(ms >> 40) // Most significant byte
+	uuid[1] = byte(ms >> 32)
+	uuid[2] = byte(ms >> 24)
+	uuid[3] = byte(ms >> 16)
+	uuid[4] = byte(ms >> 8)
+	uuid[5] = byte(ms) // Least significant byte
+
+	// Calculate sub-millisecond precision for rand_a (12 bits)
+	ns := t.UnixNano()
+
+	// Calculate sub-millisecond precision by:
+	// 1. Taking nanoseconds modulo 1 million to get just the sub-millisecond portion
+	// 2. Multiply by 4096 (2^12) to scale to 12 bits of precision
+	// 3. Divide by 1 million to normalize back to a 12-bit fraction
+	// This provides monotonically increasing values within the same millisecond
+	subMs := ((ns % 1_000_000) * (1 << 12)) / 1_000_000
+
+	// Fill the increased clock precision into "rand_a" bits
+	uuid[6] = byte(subMs >> 8)
+	uuid[7] = byte(subMs)
 
 	// Fill the rest with random data
-	_, err := io.ReadFull(rand.Reader, uuid[6:])
+	_, err := io.ReadFull(rand.Reader, uuid[8:])
 	if err != nil {
 		return UUID{}, err
 	}
