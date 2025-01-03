@@ -4,8 +4,11 @@ import (
 	"testing"
 
 	"github.com/cmackenzie1/go-uuid"
-	guid "github.com/google/uuid"
+	gofrs "github.com/gofrs/uuid/v5"
+	google "github.com/google/uuid"
 )
+
+// Version 4 UUID benchmarks
 
 func BenchmarkNewV4(b *testing.B) {
 	for i := 0; i < b.N; i++ {
@@ -14,6 +17,22 @@ func BenchmarkNewV4(b *testing.B) {
 	}
 }
 
+func BenchmarkGoogleV4(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		a, _ := google.NewRandom()
+		_ = a // prevent compiler optimization
+	}
+}
+
+func BenchmarkGofrsV4(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		a, _ := gofrs.NewV4()
+		_ = a // prevent compiler optimization
+	}
+}
+
+// Version 7 UUID benchmarks
+
 func BenchmarkNewV7(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		a, _ := uuid.NewV7()
@@ -21,16 +40,16 @@ func BenchmarkNewV7(b *testing.B) {
 	}
 }
 
-func BenchmarkGoogleV4(b *testing.B) {
+func BenchmarkGoogleV7(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		a, _ := guid.NewRandom()
+		a, _ := google.NewV7()
 		_ = a // prevent compiler optimization
 	}
 }
 
-func BenchmarkGoogleV7(b *testing.B) {
+func BenchmarkGofrsV7(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		a, _ := guid.NewV7()
+		a, _ := gofrs.NewV7()
 		_ = a // prevent compiler optimization
 	}
 }

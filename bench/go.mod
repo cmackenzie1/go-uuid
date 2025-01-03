@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/cmackenzie1/go-uuid v1.1.3
+	github.com/gofrs/uuid/v5 v5.3.0
 	github.com/google/uuid v1.6.0
 )
 
