@@ -13,7 +13,7 @@ func main() {
 	}
 	fmt.Printf("UUIDv4: %s\n", v4) // c07526de-40e5-418f-93d1-73ba20d2ac2c
 
-	v7, _ := uuid.NewV7()
+	v7, err := uuid.NewV7()
 	if err != nil {
 		panic(err)
 	}

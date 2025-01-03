@@ -3,7 +3,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/cmackenzie1/go-uuid.svg)](https://pkg.go.dev/github.com/cmackenzie1/go-uuid)
 ![go workflow](https://github.com/cmackenzie1/go-uuid/actions/workflows/go.yml/badge.svg)
 
-A simple, stdlib only, go module for generating UUIDs (**U**niversally **U**nique **ID**entifiers).
+A simple, stdlib only, go module for generating version 4 (random) and version 7 (time-based) UUIDs (**U**niversally **U**nique **ID**entifiers). This library is based on the [RFC9562](https://www.rfc-editor.org/rfc/rfc9562.html) specification.
 
 ## Installation
 
@@ -62,7 +62,7 @@ func main() {
 ### What are the benefits of this library over X?
 
 - A single library with no external dependencies for multiple types of UUIDs.
-- `UUID` type is defined as a fixed-size, `[16]byte`, array which can be used as a map (instead of the 36 byte
+- `UUID` type is defined as a fixed-size, `[16]byte`, array which can be used as a map key (instead of the 36 byte
   string representation). Over 2x space savings for memory!
 - Limited API. As per RFC9562, UUIDs (while containing embedded information), should be treated as opaque
   values. There is no temptation to build dependencies on the embedded information if you can't easily access it. 😉
@@ -88,4 +88,4 @@ Please make sure to update tests as appropriate.
 
 [MIT](./LICENSE.md)
 
-[1]: https://www.ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-01.html#section-2.1
+[1]: https://www.rfc-editor.org/rfc/rfc9562.html#section-2.1
