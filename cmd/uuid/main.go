@@ -10,7 +10,7 @@ import (
 )
 
 func run(version int, count int, uppercase bool) error {
-	for i := 0; i < count; i++ {
+	for range count {
 		var id uuid.UUID
 		var err error
 		if version == 4 {

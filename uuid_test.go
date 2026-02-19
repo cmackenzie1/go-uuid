@@ -90,7 +90,7 @@ func TestUUID_Duplicates(t *testing.T) {
 	}
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {
-			for i := 0; i < iterations; i++ {
+			for i := range iterations {
 				u, _ := tt.new()
 				if _, ok := set[u]; ok {
 					t.Errorf("iter %d: duplicate UUID detected!", i)
