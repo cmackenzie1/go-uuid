@@ -1,5 +1,8 @@
 # go-uuid
 
+> [!IMPORTANT]
+> As of Go 1.27 (August 2026), UUID generation is provided by the stdlib. https://pkg.go.dev/uuid
+
 [![Go Reference](https://pkg.go.dev/badge/github.com/cmackenzie1/go-uuid.svg)](https://pkg.go.dev/github.com/cmackenzie1/go-uuid)
 ![go workflow](https://github.com/cmackenzie1/go-uuid/actions/workflows/go.yml/badge.svg)
 
